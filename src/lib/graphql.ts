@@ -1,5 +1,5 @@
 
-export const WP_API_URL = import.meta.env.PUBLIC_WORDPRESS_URL;
+export const WP_API_URL = import.meta.env.PUBLIC_WORDPRESS_URL || 'https://thermox.mfolks.com/graphql';
 
 export async function fetchGraphQL(query: string, variables: Record<string, any> = {}) {
   const response = await fetch(WP_API_URL, {
