@@ -21,21 +21,24 @@ const homeUrl = Astro.currentLocale === "fr" ? "/fr" : "/";
   <nav
     class="relative mx-2 w-full rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/80 px-4 py-3.5 backdrop-blur-md md:flex md:items-center md:justify-between md:px-6 md:py-2.5 lg:px-8 xl:mx-auto shadow-sm"
     aria-label="Global"
-  >
-    <div class="flex items-center justify-between">
-      <!-- Brand logo -->
-      <a
-        class="flex-none shrink-0 rounded-lg text-xl font-bold outline-hidden ring-zinc-500 focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
-        href={homeUrl}
-        aria-label="Brand"
-      >
-        <BrandLogo class="h-10 w-auto" />
-      </a>
-      <!-- Collapse toggle for smaller screens -->
-      <div class="ml-auto mr-5 md:hidden">
+  >  
+    <div class="flex items-center justify-between w-full">
+      <div class="flex items-center min-w-0">
+        <!-- Brand logo -->
+        <a
+          class="flex-none shrink-0 rounded-lg text-xl font-bold outline-hidden ring-zinc-500 focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
+          href={homeUrl}
+          aria-label="Brand"
+        >
+          <BrandLogo class="h-10 w-auto max-w-[140px] md:max-w-none" />
+        </a>
+      </div>
+
+      <!-- Right corner mobile controls inside nav box -->
+      <div class="flex items-center md:hidden ml-3">
         <button
           type="button"
-          class="hs-collapse-toggle flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
+          class="hs-collapse-toggle relative z-20 flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
           data-hs-collapse="#navbar-collapse-with-animation"
           aria-controls="navbar-collapse-with-animation"
           aria-label="Toggle navigation"
@@ -70,11 +73,11 @@ const homeUrl = Astro.currentLocale === "fr" ? "/fr" : "/";
             <path d="m6 6 12 12"></path>
           </svg>
         </button>
+
+        <span class="inline-block ml-3">
+          <SimpleThemeToggle client:load />
+        </span>
       </div>
-      <!-- Simple theme toggle for mobile screens -->
-      <span class="inline-block md:hidden">
-        <SimpleThemeToggle client:load />
-      </span>
     </div>
     <!-- Contains navigation links -->
     <div

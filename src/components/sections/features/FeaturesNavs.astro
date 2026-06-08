@@ -24,11 +24,10 @@ interface Props {
 ---
 
 <section 
-  class="product-reel-root relative w-full bg-neutral-50 dark:bg-neutral-950 transition-colors duration-500" 
-  style={`height: ${(tabs.length + 2) * 100}vh;`}
+  class="product-reel-root relative w-full min-h-screen bg-neutral-50 dark:bg-neutral-950 transition-colors duration-500"
 >
-  <!-- Sticky Viewport -->
-  <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center">
+  <!-- Natural scrolling viewport -->
+  <div class="relative w-full min-h-screen overflow-hidden flex items-center">
     
     <!-- Background Image Layer -->
     <div class="absolute inset-0 z-0">
@@ -46,7 +45,7 @@ interface Props {
           <!-- Adaptive Gradient Overlay -->
           <div class="absolute inset-0 bg-gradient-to-r from-neutral-50 via-neutral-50/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/40"></div>
         </div>
-      ))}
+      ))} 
     </div>
 
     <!-- Main Content Container -->
@@ -225,55 +224,14 @@ interface Props {
     }
 
     let ticking = false;
-    let scrollTimeout: any = null;
-    let isAutoScrolling = false;
-
-    // Magnetic Snapping Logic
-    function handleSnap() {
-      if (isAutoScrolling) return;
-
-      const rect = root.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const scrolled = -rect.top;
-      const totalScrollable = rect.height - viewportHeight;
-
-      // Only snap if we are within the reel's scroll boundaries
-      // (with a small buffer to allow entering/exiting)
-      if (scrolled < 50 || scrolled > totalScrollable - 50) return;
-
-      const progress = Math.max(0, Math.min(1, scrolled / totalScrollable));
-      const targetIndex = Math.round(progress * (total - 1));
-      const targetScroll = root.offsetTop + (targetIndex / (total - 1)) * totalScrollable;
-
-      // Only snap if we aren't already very close to the target
-      if (Math.abs(window.scrollY - targetScroll) < 10) return;
-
-      isAutoScrolling = true;
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth'
-      });
-
-      // Unlock after the smooth scroll is likely finished
-      setTimeout(() => {
-        isAutoScrolling = false;
-      }, 700);
-    }
 
     window.addEventListener('scroll', () => {
-      // Regular visual updates
       if (!ticking) {
         window.requestAnimationFrame(() => {
           updateReel();
           ticking = false;
         });
         ticking = true;
-      }
-
-      // Debounced snapping
-      clearTimeout(scrollTimeout);
-      if (!isAutoScrolling) {
-        scrollTimeout = setTimeout(handleSnap, 150); // Small pause before magnetic pull
       }
     });
 
